@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 import { createThemes } from "tw-colors";
-import colors, { black, white } from "tailwindcss/colors";
-import { dark } from "@mui/material/styles/createPalette";
+import colors from "tailwindcss/colors";
 
 const baseColors = [
   "gray",
@@ -31,9 +30,9 @@ const generateThemeObject = (colors: any, mapping: any, invert = false) => {
   const theme: any = {};
   baseColors.forEach((color) => {
     theme[color] = {};
-    Object.entries(mapping).forEach(([key, value]:any) => {
-      const shadeKey  = invert ? value : key;
-      theme[color][shadeKey] = colors[color][shadeKey];
+    Object.entries(mapping).forEach(([key, value]: any) => {
+      const shadeKey = invert ? value : key;
+      theme[color][key] = colors[color][shadeKey];
     });
   });
   return theme;
@@ -45,16 +44,16 @@ const darkTheme = generateThemeObject(colors, shadeMapping, true);
 const themes = {
   light: {
     ...lightTheme,
-    white:"#ffffff",
+    white: "#ffffff",
   },
-  dark:{
+  dark: {
     ...darkTheme,
     white: colors.gray["950"],
     black: colors.gray["50"],
-  }
-}
-const config: Config = {
+  },
+};
 
+const config: Config = {
   darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -72,4 +71,5 @@ const config: Config = {
   },
   plugins: [createThemes(themes)],
 };
+
 export default config;
